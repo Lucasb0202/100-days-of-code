@@ -1,6 +1,8 @@
-from turtle import Turtle, colormode, Screen
+from turtle import Screen
 from snake import Snake
-import random
+from food import Food
+from scoreboard import Scoreboard
+from wall import Wall
 import time
 
 screen = Screen()
@@ -10,6 +12,9 @@ screen.title("Snake Game")
 screen.tracer(0)
 
 snake = Snake()
+food = Food()
+score = Scoreboard()
+wall = Wall()
 
 screen.listen()
 screen.onkey(snake.up, "Up")
@@ -19,12 +24,24 @@ screen.onkey(snake.right, "Right")
 
 game_on = True
 while game_on:
-  time.sleep(0.1)
+  time.sleep(0.05)
   snake.move()
   screen.update()
 
+  if snake.head.distance(food) < 25:
+    food.refresh()
+    score.increment()
+    snake.grow()
 
+  if snake.head.xcor() > 250  or snake.head.ycor() > 250 or snake.head.xcor() < -250 or snake.head.ycor() < -250:
+    score.game_over()
+    break
 
+  for segment in snake.snake_body[1:]:
+    if snake.head.distance(segment) < 1:
+      score.game_over()
+      game_on = False
+      break
 
 screen.exitonclick()
 

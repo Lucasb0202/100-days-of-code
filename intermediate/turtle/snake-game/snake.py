@@ -1,8 +1,7 @@
 from turtle import Turtle
 
 class Snake:
-  INTIAL_POSITIONS = [(0, 0), (-20, 0), (-40, 0)]
-  MOVE_DISTANCE = 20
+  MOVE_DISTANCE = 12.5
 
   def __init__(self) -> None:
     self.snake_body = []
@@ -11,7 +10,7 @@ class Snake:
       self.snake_segment.color("white")
       self.snake_segment.penup()
       self.snake_body.append(self.snake_segment)
-      self.snake_body[_].goto(self.INTIAL_POSITIONS[_])
+      self.snake_body[_].goto(_ * -20, 0)
     self.head = self.snake_body[0]
 
   def move(self):
@@ -20,6 +19,12 @@ class Snake:
       y_pos = self.snake_body[snake_index - 1].ycor()
       self.snake_body[snake_index].goto(x_pos, y_pos)
     self.snake_body[0].forward(self.MOVE_DISTANCE)
+
+  def grow(self):
+    self.snake_segment = Turtle("square")
+    self.snake_segment.color("white")
+    self.snake_segment.penup()
+    self.snake_body.append(self.snake_segment)
       
   def up(self):
     if self.head.heading() == 270.0:
