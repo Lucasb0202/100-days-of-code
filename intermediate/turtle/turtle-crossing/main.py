@@ -20,18 +20,13 @@ screen.onkey(player.left, "Left")
 screen.onkey(player.right, "Right")
 
 cars = []
-i = 0
-while i < 15:
-  cars.append(CarManager(random.randint(310, 500), random.randint(-280, 270)))
-  i += 1
-
 car_counter = 0
 game_is_on = True
 while game_is_on:
     time.sleep(0.1)
     screen.update()
     if car_counter % 5 == 0:
-      cars.append(CarManager(random.randint(310, 800), random.randint(-280, 270)))
+      cars.append(CarManager())
     for car in cars:
       car.move(cars)
     car_counter += 1
@@ -42,3 +37,8 @@ while game_is_on:
       for car in cars:
         car.speed_increase()
     
+    for car in cars:
+      if car.distance(player) < 20:
+        game_is_on = False
+
+screen.exitonclick()
